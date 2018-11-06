@@ -1,0 +1,35 @@
+import requests
+from bs4 import BeautifulSoup as bs
+from urllib.request import urlretrieve as down
+import os
+
+way = input('Way: ')
+os.chdir(way)
+
+link = '''http://www.mcdonalds.com.br/cardapio/linha-signature http://www.mcdonalds.com.br/cardapio/sanduiches-de-carne
+http://www.mcdonalds.com.br/cardapio/sanduiches-de-frango-e-peixe http://www.mcdonalds.com.br/cardapio/acompanhamentos
+http://www.mcdonalds.com.br/cardapio/bebidas http://www.mcdonalds.com.br/cardapio/sobremesas http://www.mcdonalds.com.br/cardapio/saladas
+http://www.mcdonalds.com.br/cardapio/saladas'''.split()
+
+for y in link:
+    
+    r = requests.get(y)
+    b = bs(r.text, 'html.parser')
+    i = str(b.findAll('img')).split(',')
+    l = []
+
+    for x in i:
+        if 'BR/sobremesas' in x: l.append(x)
+        if 'BR/linha-signature/' in x: l.append(x)
+        if 'BR/sanduiches-de-carne/' in x: l.append(x)
+        if 'BR/sanduiches-de-frango-e-peixe/' in x: l.append(x)
+        if 'BR/acompanhamentos/' in x: l.append(x)
+        if 'BR/bebidas/' in x: l.append(x)
+        if 'BR/saladas/' in x: l.append(x)
+        if 'BR/mccafe-da-manha/' in x: l.append(x)
+    
+    
+
+    for x in l:
+        t = x[38::].split()[0]
+        down(t[0:-1],t[0:-1].split('/')[-1])
