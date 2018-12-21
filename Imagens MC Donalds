@@ -1,3 +1,6 @@
+#Esse codigo efetua o download das imagens dos lanches disponivel no site do MC Donalds.
+#Objetivo: utilizar em aplicativo para fins de didaticos na Materia de Administração
+
 import requests
 from bs4 import BeautifulSoup as bs
 from urllib.request import urlretrieve as down
