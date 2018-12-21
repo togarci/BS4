@@ -1,0 +1,32 @@
+import requests
+from bs4 import BeautifulSoup as bs 
+from urllib.request import urlretrieve as down
+import os
+
+caminho = input('Path: ')
+
+# Estrando nos Menus
+l = requests.get('http://www.burgerking.com.br/menu')
+a = bs(l.text,'html.parser')
+s = str(a.findAll('a')).split(',')
+li = []
+for x in s:
+    if 'href="/menu/' in x and not 'class' in x: li.append(x)
+
+#Baixando Imagens do Menu
+for x in li:
+    
+    os.chdir(caminho)
+    x = x.split('"')
+    os.mkdir(str(x[1]).split('/')[-1])
+    os.chdir(caminho + str(x[1]).split('/')[-1])
+    l = requests.get('http://www.burgerking.com.br'+ x[1])
+    a = bs(l.text, 'html.parser')
+    s = str(a.findAll('img')).split(',')
+    for x in s:
+        if 'http://bk-latam-prod.s3.amazonaws.com/sites/burgerking.com.br/files' in x:
+            x = x.split('"')
+            y = x[1].split('/')
+            down(x[1], y[-1])
+    
+    
