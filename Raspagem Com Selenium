@@ -1,0 +1,43 @@
+#Este codigo baixa todos os exercicio em PDF do curso de Python para Zombies
+#Necessario ter uma conta no PyCursos
+
+
+from urllib.request import urlretrieve as down
+from selenium import webdriver as wd
+from selenium.webdriver.common.keys import Keys
+import os
+
+#Onde Salvar
+s = input('Path: ')
+os.chdir(s)
+try:
+    os.mkdir('MassaExercices-Py')
+    
+except:
+    print('The folder already exists')
+os.chdir(s+'/MassaExercices-Py')
+
+#Emular Java Script
+browser = wd.PhantomJS('/Path/phantomjs')
+browser.get('http://pingmind.com.br/classes/142/exercises/offline/')
+
+#Inserir Senha 
+email = input('Email:')
+l = browser.find_element_by_id('id_email')
+l.send_keys(email)
+
+passwd = input('Password: ')
+l = browser.find_element_by_id('id_password')
+l.send_keys(passwd)
+l.send_keys(Keys.RETURN)
+
+#Baixar PDF 
+for x in range(127,150):
+    browser.get(f'http://pingmind.com.br/classes/142/exercises/{x}/offline/')
+    ps = str((bs(browser.page_source,'html.parser')).findAll('li')).split('<li>')
+    for y in ps:
+        if 'href="/attachments' in y:
+            down('http://pingmind.com.br' + y.split('"')[1],(y.split('>')[1])[0:-9]+'.pdf')
+            print('Download',(y.split('>')[1])[0:-9]+'.pdf','has been completed.')
+
+browser.close()
