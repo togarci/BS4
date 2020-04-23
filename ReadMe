@@ -1,7 +1,9 @@
-#Raspagem de Dados
+#Brincando com automatização em Python 
 
+Este repositorio contem alguns exemplo de script automatizados desenvolvidos em Python
 
-Este repositorio contem alguns exemplo raspagem de dados, desenvolvidos em Python
-
-A tecnologia usada para estes exemplos fora BeatifulSoap e Request entre outras..
+Bibliotecas:
+BeatifulSoap 
+Request
+Selenium
 
